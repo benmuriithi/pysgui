@@ -28,7 +28,8 @@ while True:
         try:
             user_entry = float(values["-ENTRY-"])
         except:
-            user_entry = 0.0
+            window["-OUTPUT-"].update("Please enter a number.")
+            continue
         
         result = operations[values["-OPERATION-"]](user_entry)
         window["-OUTPUT-"].update(f"{user_entry} {result[0]} are {result[1]:.3f} {result[2]}")
