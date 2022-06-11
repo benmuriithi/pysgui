@@ -2,13 +2,7 @@
 import PySimpleGUI as sg
 
 theme_menu = ["menu", ["LightBlue2", "DarkBlack", "LightGrey", "random"]]
-operations = {
-        '/': lambda l: float(l[0]) / float(l[1]),
-        'X': lambda l: float(l[0]) * float(l[1]),
-        '-': lambda l: float(l[0]) - float(l[1]),
-        '+': lambda l: float(l[0]) + float(l[1]),
-
-    }
+operations = {i for i in "/X-+"}
 
 def create_window(theme: str) ->sg.Window:
     sg.theme(theme)
@@ -66,7 +60,7 @@ while True:
             math_error = False
         window["SCREEN"].update(window["SCREEN"].get()+event)
         answer_displayed_flag = False
-    elif event in operations.keys():
+    elif event in operations:
         if math_error:
             clear_screen()
             math_error = False
