@@ -43,18 +43,14 @@ def create_window(theme: str) ->sg.Window:
 
     return sg.Window("calculator", layout)
 
-def calculate(entry: str) -> float:
-    for i in operations.keys():
-        sides = entry.split(i)
-        if len(sides) == 2:
-            return round(operations[i](sides), 12)
-
-
 number_buttons = {str(i) for i in range(10)}
 number_buttons.add('.')
 
 window = create_window("LightBlue2")
-answer_displayed_flag = False 
+answer_displayed_flag = False
+math_error = False
+
+clear_screen = lambda: window["SCREEN"].update('')
 
 while True:
     event, values = window.read()
@@ -65,17 +61,31 @@ while True:
         window.close()
         window = create_window(event)
     elif event in number_buttons:
-        if answer_displayed_flag:
-            window["SCREEN"].update('')
+        if answer_displayed_flag or math_error:
+            clear_screen()
+            math_error = False
         window["SCREEN"].update(window["SCREEN"].get()+event)
         answer_displayed_flag = False
     elif event in operations.keys():
+        if math_error:
+            clear_screen()
+            math_error = False
+        if event == "X":
+            event = "*"
         window["SCREEN"].update(window["SCREEN"].get()+event)
         answer_displayed_flag = False
     elif event == "ENTER":
-        window["SCREEN"].update(calculate(window["SCREEN"].get()))
-        answer_displayed_flag = True
+        if math_error:
+            clear_screen()
+            math_error = False
+        try:
+            window["SCREEN"].update(round(eval(window["SCREEN"].get()), 12))
+        except:
+            window["SCREEN"].update("MATH ERROR")
+            math_error=True
+        else:
+            answer_displayed_flag = True
     elif event == "CLEAR":
-        window["SCREEN"].update('')
+        clear_screen()
 
 window.close()
