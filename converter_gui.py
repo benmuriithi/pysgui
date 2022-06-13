@@ -17,7 +17,7 @@ layout = [
     [sg.Text("Output", key="-OUTPUT-")]
 ]
 
-window = sg.Window("Converter", layout)
+window = sg.Window("Converter", layout, icon="./resources/converter.ico")
 
 while True:
     event, values = window.read()

@@ -1,4 +1,8 @@
 
+
+#Simple Calculator App
+#Requires PySimpleGUI and tkinter
+
 import PySimpleGUI as sg
 
 theme_menu = ["menu", ["LightBlue2", "DarkBlack", "LightGrey", "random"]]
@@ -35,7 +39,7 @@ def create_window(theme: str) ->sg.Window:
         ]
     ]
 
-    return sg.Window("calculator", layout)
+    return sg.Window("Calculator", layout, icon="./resources/calculator.ico")
 
 number_buttons = {str(i) for i in range(10)}
 number_buttons.add('.')
